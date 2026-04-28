@@ -105,12 +105,17 @@ final class NutritionAnalyzerService {
         local.markFirstSuccessfulHeavyInference()
     }
 
+    /// UserDefaults-ключ флага первой успешной inference. Дублируется в
+    /// host-app (см. `AppController.firstRecognitionFlagKey`) — обе стороны
+    /// читают/пишут одно значение.
+    public static let firstRecognitionFlagKey = "has_performed_first_recognition"
+
     /// Идемпотентный сетер UserDefaults-флага. Координатор апгрейда читает его
     /// перед стартом фонового скачивания heavy: пока хотя бы раз не сработала
     /// успешная inference на bootstrap, тратить трафик на heavy не имеет смысла.
     private static func markFirstRecognitionPerformed() {
         let defaults = UserDefaults.standard
-        let key = AppController.firstRecognitionFlagKey
+        let key = firstRecognitionFlagKey
         if defaults.bool(forKey: key) { return }
         defaults.set(true, forKey: key)
     }
