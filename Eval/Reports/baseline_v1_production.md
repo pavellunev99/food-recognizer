@@ -5,7 +5,7 @@
 с уникальными числами (нет якорной 413 ккал из статического snapshot).
 
 Run id: `2026-04-28T05-42-11Z_v1_production_qwen2VL_2B`.
-Сборка: `swift run -c release NutriLensEval run --prompt v1_production --model qwen2 --images all`.
+Сборка: `swift run -c release FoodEval run --prompt v1_production --model qwen2 --images all`.
 Полный сырой отчёт: `Reports/runs/2026-04-28T05-42-11Z_v1_production_qwen2VL_2B.json`.
 Машинный summary: `Reports/runs/2026-04-28T05-42-11Z_v1_production_qwen2VL_2B_summary.json`.
 

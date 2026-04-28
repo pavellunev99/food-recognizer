@@ -1,6 +1,6 @@
 # Fixture licenses
 
-All images are sourced under permissive Creative Commons licenses (CC0, CC-BY, CC-BY-SA) or public domain so NutriLens (commercial product) can use them in its evaluation harness. Tier-1 and tier-3 images come from Wikimedia Commons; tier-2 images are taken from Open Food Facts product pages (their image data is contributed under CC-BY-SA 4.0).
+All images are sourced under permissive Creative Commons licenses (CC0, CC-BY, CC-BY-SA) or public domain so FoodRecognizer (commercial product) can use them in its evaluation harness. Tier-1 and tier-3 images come from Wikimedia Commons; tier-2 images are taken from Open Food Facts product pages (their image data is contributed under CC-BY-SA 4.0).
 
 Source helpers (Wave 6):
 

@@ -1,5 +1,5 @@
 import Testing
-@testable import NutriLensEval
+@testable import FoodEval
 
 @Suite("ModelOutput.parse")
 struct ModelOutputTests {

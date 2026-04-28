@@ -1,4 +1,4 @@
-# NutriLens VLM Evaluation Harness
+# FoodRecognizer VLM Evaluation Harness
 
 Инструмент для итеративной отладки промта и сравнения локальных VLM моделей.
 Цель — измерять числовой рейтинг связки «промт + модель» на размеченной базе картинок и
@@ -14,10 +14,10 @@
 ./scripts/prepare-metallib.sh
 
 # 2. Полный прогон (~8-10 минут на 93 картинки):
-swift run -c release NutriLensEval run --prompt v1 --model qwen2 --images all
+swift run -c release FoodEval run --prompt v1 --model qwen2 --images all
 
 # 3. Сравнить промты:
-swift run NutriLensEval compare --model qwen2 --prompts v1,v2,v3
+swift run FoodEval compare --model qwen2 --prompts v1,v2,v3
 
 # 4. Тесты:
 swift test
@@ -40,8 +40,8 @@ Wrapper для удобства из корня репо: `./scripts/run_eval.sh
 ```
 tools/eval/
   Package.swift
-  Sources/NutriLensEval/        # Swift CLI (subcommand'ы, runner, scorer)
-  Tests/NutriLensEvalTests/     # unit-тесты (35 кейсов)
+  Sources/FoodEval/        # Swift CLI (subcommand'ы, runner, scorer)
+  Tests/FoodEvalTests/     # unit-тесты (35 кейсов)
   Fixtures/
     ground_truth.json           # 93 размеченных еды-айтема (tier1/2/3)
     LICENSES.md                 # источники картинок
@@ -66,14 +66,14 @@ tools/eval/
 1. Создай `Prompts/v2_my_idea.txt` (просто текст системного промта, без обвязки).
 2. Запусти полный прогон:
    ```bash
-   swift run -c release NutriLensEval run --prompt v2_my_idea --model qwen2 --images all
+   swift run -c release FoodEval run --prompt v2_my_idea --model qwen2 --images all
    ```
 3. Открой `Reports/latest.md` — увидишь mean / p50 / p90 / pass@0.7 + Δ к baseline,
    per-tier разбивку и список регрессий.
 4. Если число лучше baseline — `Reports/best/v2_my_idea_qwen2VL_2B.json` обновится автоматически.
 
 Чтобы поднять промт в production — отредактируй `LocalVLMModel.nutritionSystemPrompt(retry:)`
-в основном таргете NutriLens.
+в основном таргете FoodRecognizer.
 
 ## Как добавить новую картинку
 

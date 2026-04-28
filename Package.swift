@@ -29,21 +29,24 @@ let package = Package(
         .library(name: "FoodRecognizer", targets: ["FoodRecognizer"]),
     ],
     dependencies: [
+        // Specs синхронизированы с host-app Package.resolved. Branch-based для
+        // совместимости с mobile-host (SPM не разрешает одну dep с разными
+        // requirement-types в одном dep graph).
         .package(
             url: "https://github.com/ml-explore/mlx-swift",
             exact: "0.31.3"
         ),
         .package(
             url: "https://github.com/ml-explore/mlx-swift-lm.git",
-            revision: "99a2b1c55637a66abfcbe220dd1bf881f805b613"
+            branch: "main"
         ),
         .package(
             url: "https://github.com/huggingface/swift-huggingface.git",
-            revision: "b721959445b617d0bf03910b2b4aced345fd93bf"
+            branch: "main"
         ),
         .package(
             url: "https://github.com/huggingface/swift-transformers.git",
-            revision: "7f1f9d06c8fc789936a4cca2affe96528e99f47d"
+            branch: "main"
         ),
     ],
     targets: [

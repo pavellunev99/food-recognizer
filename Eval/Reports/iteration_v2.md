@@ -77,17 +77,17 @@ For qwen2 the regression list is longer (sample): `051_sprite_can` 0.85→0.35 (
 ## v3 hypotheses (what to try next)
 
 1. **Two-shot example injection of the portion table itself.** Concrete portion-tells live in Step 2a as a long sentence; qwen2 only partially absorbs. Convert the table to 3-4 sample assistant outputs with non-round portionGrams (e.g. show "53 g" not "50 g") so that the conditional probability of round numbers drops further. Expected: PORTION_FALLBACK on qwen2 from 23 → ~12.
-2. **Dual-name field.** Add `foodNameEn` (English, used for scoring) and `foodNameRu` (Russian, used for UI) so qwen2 doesn't have to suppress its Russian instinct. Expected: NAME_GIBBERISH on qwen2 from 34 → ~10. Requires NutriLensEval scoring change to check both keys against aliases (cheap).
+2. **Dual-name field.** Add `foodNameEn` (English, used for scoring) and `foodNameRu` (Russian, used for UI) so qwen2 doesn't have to suppress its Russian instinct. Expected: NAME_GIBBERISH on qwen2 from 34 → ~10. Requires FoodEval scoring change to check both keys against aliases (cheap).
 3. **Per-tier prompts.** T2 packaged products dominate STRUCTURAL_MISSING_FIELDS — they need a stronger "READ THE LABEL" framing. Could route v2_targeted_packaged for T2 only.
 4. **CALORIES_OVER_2X on small produce (cucumber, broccoli, spinach) is sticky** — model scales calories with portion mass linearly even when produce is < 30 kcal/100 g. Add an explicit "low-density" bucket: "leafy greens / cucumber / tomato / broccoli / pepper / mushroom < 30 kcal per 100 g — final number for a normal portion is < 60 kcal." Expected: −5 fixtures from CALORIES_OVER_2X.
 5. **CALORIES_UNDER_50pct rose for qwen3 (10 fixtures)** — symmetric undershoot. Likely caused by Step 2a anchoring portionGrams too low for restaurant plates. Add a tier3-specific size hint ("restaurant-served plates 280-380 g, café bowls 320-450 g").
 
 ## Files written
 
-- `/Users/pavellunev/Development/NutriLens/tools/eval/Prompts/v2_targeted.txt`
-- `/Users/pavellunev/Development/NutriLens/tools/eval/Reports/analysis_v1_failures.md`
-- `/Users/pavellunev/Development/NutriLens/tools/eval/Reports/iteration_v2.md`
-- `/Users/pavellunev/Development/NutriLens/tools/eval/scripts/analyze_failures.py`
-- `/Users/pavellunev/Development/NutriLens/tools/eval/Reports/runs/2026-04-28T06-03-38Z_v2_targeted_qwen2VL_2B.json`
-- `/Users/pavellunev/Development/NutriLens/tools/eval/Reports/runs/2026-04-28T06-13-10Z_v1_production_qwen3VL_4B.json`
-- `/Users/pavellunev/Development/NutriLens/tools/eval/Reports/runs/2026-04-28T06-25-42Z_v2_targeted_qwen3VL_4B.json`
+- `/Users/pavellunev/Development/FoodRecognizer/tools/eval/Prompts/v2_targeted.txt`
+- `/Users/pavellunev/Development/FoodRecognizer/tools/eval/Reports/analysis_v1_failures.md`
+- `/Users/pavellunev/Development/FoodRecognizer/tools/eval/Reports/iteration_v2.md`
+- `/Users/pavellunev/Development/FoodRecognizer/tools/eval/scripts/analyze_failures.py`
+- `/Users/pavellunev/Development/FoodRecognizer/tools/eval/Reports/runs/2026-04-28T06-03-38Z_v2_targeted_qwen2VL_2B.json`
+- `/Users/pavellunev/Development/FoodRecognizer/tools/eval/Reports/runs/2026-04-28T06-13-10Z_v1_production_qwen3VL_4B.json`
+- `/Users/pavellunev/Development/FoodRecognizer/tools/eval/Reports/runs/2026-04-28T06-25-42Z_v2_targeted_qwen3VL_4B.json`

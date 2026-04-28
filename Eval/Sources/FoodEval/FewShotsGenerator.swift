@@ -3,7 +3,7 @@ import Foundation
 // MARK: - FewShotsGenerator
 //
 // Faithful copy production-логики `LocalVLMModel.randomizedFewShots(count:)`
-// (см. NutriLens/Services/LLM/LocalVLMModel.swift:134). Цель — давать тот же
+// (см. FoodRecognizer/Services/LLM/LocalVLMModel.swift:134). Цель — давать тот же
 // вид few-shot блока, что app использует в runtime, но с детерминизмом per
 // image_id, чтобы прогон harness был воспроизводим.
 //

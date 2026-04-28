@@ -7,7 +7,7 @@ Production retry-промт. Тот же few-shots placeholder, но с retry-б
 quality с включённой retry-логикой.
 
 Run id: `2026-04-28T05-46-10Z_v1_production_retry_qwen2VL_2B`.
-Сборка: `swift run -c release NutriLensEval run --prompt v1_production_retry --model qwen2 --images all`.
+Сборка: `swift run -c release FoodEval run --prompt v1_production_retry --model qwen2 --images all`.
 Полный сырой отчёт: `Reports/runs/2026-04-28T05-46-10Z_v1_production_retry_qwen2VL_2B.json`.
 Машинный summary: `Reports/runs/2026-04-28T05-46-10Z_v1_production_retry_qwen2VL_2B_summary.json`.
 

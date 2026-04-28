@@ -1,6 +1,6 @@
 import Testing
 import Foundation
-@testable import NutriLensEval
+@testable import FoodEval
 
 private func mkRecord(
     id: String,

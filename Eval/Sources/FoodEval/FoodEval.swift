@@ -9,7 +9,7 @@ import Tokenizers
 
 // MARK: - Root command
 
-// `@main` обязателен. Если оставить top-level `await NutriLensEval.main()` в
+// `@main` обязателен. Если оставить top-level `await FoodEval.main()` в
 // main.swift — компилятор резолвит синхронный `ParsableCommand.main()`
 // (override для AsyncParsableCommand сидит на async-перегрузке), и в DEBUG
 // ArgumentParser ловит «Asynchronous root command needs availability
@@ -17,10 +17,10 @@ import Tokenizers
 // `@available(macOS 10.15, *)` — формальное требование того же DEBUG-чека.
 @available(macOS 10.15, *)
 @main
-struct NutriLensEval: AsyncParsableCommand {
+struct FoodEval: AsyncParsableCommand {
     static let configuration = CommandConfiguration(
-        commandName: "NutriLensEval",
-        abstract: "Offline VLM accuracy harness for NutriLens (Wave 1 skeleton).",
+        commandName: "FoodEval",
+        abstract: "Offline VLM accuracy harness for FoodRecognizer (Wave 1 skeleton).",
         subcommands: [GateCheck.self, SmokeInfer.self, RunCommand.self, CompareCommand.self, ScoreOnlyCommand.self],
         defaultSubcommand: GateCheck.self
     )
@@ -117,7 +117,7 @@ struct GateCheck: AsyncParsableCommand {
 /// строить полный harness с per-image scoring.
 ///
 /// Лог стадий идёт в stderr, raw model output — в stdout. Это позволяет
-/// `swift run NutriLensEval smoke-infer ... > out.json` отработать чисто
+/// `swift run FoodEval smoke-infer ... > out.json` отработать чисто
 /// для машинной обработки.
 struct SmokeInfer: AsyncParsableCommand {
     static let configuration = CommandConfiguration(
@@ -238,7 +238,7 @@ private func collectMLXInfo() -> GateReport.MLXSection {
     //    инициализировался без exception'а в startup'е, — достаточно.
     //  - если позже Wave 2 пойдёт через ChatSession, она грузит metallib через
     //    bundle resource path внутри `loadModelContainer`, либо нам нужно
-    //    положить metallib в Sources/NutriLensEval/Resources/.
+    //    положить metallib в Sources/FoodEval/Resources/.
     //
     // В отчёте честно фиксируем "metallibLoaded=false (deferred to Wave 2)".
     section.deviceInfo = "MLX module linked; default.metallib lookup deferred to inference path"
@@ -256,7 +256,7 @@ private func collectMLXInfo() -> GateReport.MLXSection {
     return section
 }
 
-// Entry point: `@main` на `NutriLensEval` сам поднимает `static main() async`
+// Entry point: `@main` на `FoodEval` сам поднимает `static main() async`
 // из `AsyncParsableCommand`. Никакого top-level кода тут не нужно.
 
 // MARK: - run

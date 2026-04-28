@@ -21,7 +21,7 @@ as fallback for memory-constrained devices.
 ## Что класть в production-промт
 
 Содержимое `tools/eval/Prompts/v2_targeted.txt` нужно перенести в
-[`Nutrilens/Services/LLM/LocalVLMModel.swift`](Nutrilens/Services/LLM/LocalVLMModel.swift)
+[`Sources/FoodRecognizer/LLM/LocalVLMModel.swift`](Sources/FoodRecognizer/LLM/LocalVLMModel.swift)
 в функцию `qwenPrompt(retry:shots:)`. Конкретные изменения относительно текущего
 production-промта:
 
@@ -96,9 +96,9 @@ pizza slice ≈ 107 g, burger ≈ 232 g, sandwich ≈ 186 g, sushi roll plate �
 
 ```bash
 cd tools/eval
-swift run -c release NutriLensEval run --prompt v2_targeted --model qwen3 --images all
+swift run -c release FoodEval run --prompt v2_targeted --model qwen3 --images all
 # Должно дать: mean ~0.45, pass@0.7 ~14/93
-swift run NutriLensEval compare --model qwen3 --prompts v2_targeted,<новый>
+swift run FoodEval compare --model qwen3 --prompts v2_targeted,<новый>
 # Любой новый промт сравнивается с этим baseline
 ```
 

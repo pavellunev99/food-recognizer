@@ -1,6 +1,6 @@
 # FoodRecognizer
 
-Swift Package для распознавания еды по фото через локальную VLM (Vision-Language Model). Используется в приложении [Nutrilens](https://github.com/pavellunev99) для оффлайн-определения блюда, его веса и пищевой ценности (КБЖУ).
+Swift Package для распознавания еды по фото через локальную VLM (Vision-Language Model). Оффлайн-определение блюда, его веса и пищевой ценности (КБЖУ).
 
 ## Стек
 
@@ -18,7 +18,7 @@ Swift Package для распознавания еды по фото через 
 
 ## Установка
 
-В `Package.swift` mobile-приложения:
+В `Package.swift` host-приложения:
 
 ```swift
 .package(url: "https://github.com/pavellunev99/food-recognizer.git", branch: "main"),
@@ -50,12 +50,12 @@ let result: FoodAnalysisResult = try await analyzer.analyzeFood(from: uiImage)
 
 ## Сценарий использования двух моделей
 
-`ModelUpgradeCoordinator` живёт в mobile-host (зависит от SwiftData). Bootstrap → Heavy перевод делается на app-уровне:
+`ModelUpgradeCoordinator` живёт в host-app (зависит от SwiftData). Bootstrap → Heavy перевод делается на app-уровне:
 
 1. Cold start → инициализируется `LocalLLMService(model: .qwen2VL_2B)` (быстро, ~1.2 GB)
 2. После первого успешного inference → фоном начинается download Qwen3-VL-4B
 3. Когда загружено → `cleanup()` старого + создаётся новый `LocalLLMService(model: .qwen3VL_4B)`
-4. UpgradeStatus трекается через SwiftData @Model в mobile-host
+4. UpgradeStatus трекается через SwiftData @Model в host-app
 
 ## Структура репо
 
@@ -142,12 +142,6 @@ Tolerances: tier-1/2 — 10%, tier-3 (готовые блюда) — 25%.
 
 vs baseline (qwen3VL_4B + старый promt): mean 0.247, pass@0.7 = 3/93. Прирост **+62% mean**.
 
-## Roadmap
-
-- **Этап A (сделан)** — извлечение в SPM модуль, eval-инструмент работает standalone.
-- **Этап B (сейчас)** — mobile-app переключается на FoodRecognizer как SPM dependency, удаляются дубликаты.
-- **Этап C** — снижение iOS deployment target до 17 (с условной AssetPack-логикой только для iOS 26+), хранение весов в GitHub Releases food-recognizer репо для xcodecloud-сборки без HF rate-limit.
-
 ## Лицензия
 
-TBD — обсуждается. Внутренняя разработка Nutrilens.
+TBD.

@@ -2,7 +2,7 @@
 # prepare-metallib.sh
 #
 # Готовит mlx-swift_Cmlx.bundle/Contents/Resources/default.metallib рядом
-# с executable, который собирает `swift run NutriLensEval`.
+# с executable, который собирает `swift run FoodEval`.
 #
 # Зачем: SwiftPM CLI (`swift build`) не компилирует .metal-исходники из Cmlx
 # target — Xcode делает это в своей build-phase. Без metallib любая попытка
@@ -45,7 +45,7 @@ if [[ -z "$EXISTING" ]]; then
     echo "[prepare-metallib] No prebuilt $BUNDLE_NAME in DerivedData; building via xcodebuild..."
     pushd "$EVAL_ROOT" >/dev/null
     xcodebuild \
-        -scheme NutriLensEval \
+        -scheme FoodEval \
         -destination 'platform=macOS,arch=arm64' \
         -configuration Debug \
         build 2>&1 | tail -5

@@ -21,7 +21,7 @@ public enum MarkdownRenderer {
         var lines: [String] = []
 
         // ---- Header ----
-        lines.append("# NutriLens VLM Eval — \(summary.runId)")
+        lines.append("# FoodRecognizer VLM Eval — \(summary.runId)")
         lines.append("")
         lines.append("- **Prompt:** \(summary.promptVersion)")
         lines.append("- **Model:** \(summary.modelName)")

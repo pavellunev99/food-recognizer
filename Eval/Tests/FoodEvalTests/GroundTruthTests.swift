@@ -1,6 +1,6 @@
 import Testing
 import Foundation
-@testable import NutriLensEval
+@testable import FoodEval
 
 private func validItem(id: String = "001_apple") -> GroundTruthItem {
     GroundTruthItem(

@@ -5,7 +5,7 @@
 этих чисел.
 
 Run id: `2026-04-28T02-43-57Z_v1_qwen2VL_2B`.
-Сборка: `swift run -c release NutriLensEval run --prompt v1 --model qwen2 --images <87-id-list>`.
+Сборка: `swift run -c release FoodEval run --prompt v1 --model qwen2 --images <87-id-list>`.
 Полный сырой отчёт: `Reports/runs/2026-04-28T02-43-57Z_v1_qwen2VL_2B.json`.
 Машинный summary: `Reports/runs/2026-04-28T02-43-57Z_v1_qwen2VL_2B_summary.json`.
 
