@@ -4,7 +4,7 @@ import Foundation
 import UIKit
 
 /// Ошибки сервиса анализа питания
-enum NutritionAnalyzerError: LocalizedError {
+public enum NutritionAnalyzerError: LocalizedError {
     case llmServiceNotInitialized
     case invalidJSONResponse
     case imageProcessingFailed
@@ -14,7 +14,7 @@ enum NutritionAnalyzerError: LocalizedError {
     /// Внутренняя ошибка — перехватывается в `analyzeFood` для ретрая.
     case suspiciousOutput(String)
 
-    var errorDescription: String? {
+    public var errorDescription: String? {
         switch self {
         case .llmServiceNotInitialized:
             return String(localized: "error_nutrition_llm_not_initialized")
@@ -33,12 +33,12 @@ enum NutritionAnalyzerError: LocalizedError {
 }
 
 /// Сервис для анализа питательной ценности еды
-final class NutritionAnalyzerService {
+public final class NutritionAnalyzerService {
 
     private let llmService: LLMServiceProtocol
     private let ocrService: NutritionLabelOCRService
 
-    init(
+    public init(
         llmService: LLMServiceProtocol,
         ocrService: NutritionLabelOCRService = NutritionLabelOCRService()
     ) {
@@ -56,7 +56,7 @@ final class NutritionAnalyzerService {
     ///    лейблов). Для `foodName` всё равно зовём VLM коротким промптом.
     /// 2. VLM как основной путь, если OCR не нашёл этикетку.
     /// 3. Post-validation: если ккал > 50, но БЖУ все ≈ 0 — один ретрай.
-    func analyzeFood(from image: UIImage) async throws -> FoodAnalysisResult {
+    public func analyzeFood(from image: UIImage) async throws -> FoodAnalysisResult {
         guard llmService.isInitialized else {
             throw NutritionAnalyzerError.llmServiceNotInitialized
         }
@@ -207,7 +207,7 @@ final class NutritionAnalyzerService {
     }
     
     /// Анализ текстового описания еды
-    func analyzeFood(from text: String) async throws -> FoodAnalysisResult {
+    public func analyzeFood(from text: String) async throws -> FoodAnalysisResult {
         guard llmService.isInitialized else {
             throw NutritionAnalyzerError.llmServiceNotInitialized
         }
@@ -229,7 +229,7 @@ final class NutritionAnalyzerService {
     }
     
     /// Получение рекомендаций по питанию
-    func getNutritionRecommendations(
+    public func getNutritionRecommendations(
         currentCalories: Double,
         targetCalories: Double
     ) -> [String] {

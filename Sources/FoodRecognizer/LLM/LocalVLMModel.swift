@@ -3,20 +3,20 @@ import Foundation
 /// Выбор локальной VLM для `LocalLLMService`.
 /// Qwen2-VL-2B-Instruct-4bit — дефолт (1.2 GB, влезает в 2 GB лимит Prefetched
 /// Asset Pack и точнее распознаёт нетипичные блюда).
-nonisolated enum LocalVLMModel: String, CaseIterable, Codable, Sendable {
+public nonisolated enum LocalVLMModel: String, CaseIterable, Codable, Sendable {
     case qwen2VL_2B
     case qwen3VL_4B
 
-    static let `default`: LocalVLMModel = .qwen2VL_2B
+    public static let `default`: LocalVLMModel = .qwen2VL_2B
 
-    var displayName: String {
+    public var displayName: String {
         switch self {
         case .qwen2VL_2B: return "Qwen2-VL 2B Instruct (4-bit)"
         case .qwen3VL_4B: return "Qwen3-VL 4B Instruct (4-bit)"
         }
     }
 
-    var repoId: String {
+    public var repoId: String {
         switch self {
         case .qwen2VL_2B: return "mlx-community/Qwen2-VL-2B-Instruct-4bit"
         case .qwen3VL_4B: return "mlx-community/Qwen3-VL-4B-Instruct-4bit"
@@ -25,7 +25,7 @@ nonisolated enum LocalVLMModel: String, CaseIterable, Codable, Sendable {
 
     /// Корневое имя директории модели. Используется как префикс для группы
     /// asset packs: `<root>-meta` + `<root>-shard-NN` (см. ModelAssetProvider).
-    var assetPackModelRoot: String {
+    public var assetPackModelRoot: String {
         switch self {
         case .qwen2VL_2B: return "qwen2-vl-2b-instruct-4bit"
         case .qwen3VL_4B: return "qwen3-vl-4b-instruct-4bit"
@@ -37,13 +37,13 @@ nonisolated enum LocalVLMModel: String, CaseIterable, Codable, Sendable {
 
 /// Категория модели. Bootstrap — лёгкая, ставится сразу при первом запуске.
 /// Heavy — мощная, скачивается фоном после bootstrap при наличии ресурсов.
-nonisolated enum ModelTier: String, Codable, Sendable {
+public nonisolated enum ModelTier: String, Codable, Sendable {
     case bootstrap
     case heavy
 }
 
 extension LocalVLMModel {
-    nonisolated var tier: ModelTier {
+    public nonisolated var tier: ModelTier {
         switch self {
         case .qwen2VL_2B: return .bootstrap
         case .qwen3VL_4B: return .heavy
@@ -52,7 +52,7 @@ extension LocalVLMModel {
 
     /// Минимум физической памяти устройства, ниже которого модель не запускается.
     /// iOS даёт ~50% physicalMemory до jetsam kill.
-    nonisolated var minPhysicalMemoryBytes: UInt64 {
+    public nonisolated var minPhysicalMemoryBytes: UInt64 {
         switch tier {
         case .bootstrap: return 4 * 1024 * 1024 * 1024  // 4 GB
         case .heavy:     return 6 * 1024 * 1024 * 1024  // 6 GB
@@ -60,7 +60,7 @@ extension LocalVLMModel {
     }
 
     /// Приблизительный размер весов модели в байтах (4-bit Q4).
-    nonisolated var approximateSizeBytes: Int64 {
+    public nonisolated var approximateSizeBytes: Int64 {
         switch self {
         case .qwen2VL_2B: return 1_300_000_000
         case .qwen3VL_4B: return 2_600_000_000
@@ -69,13 +69,13 @@ extension LocalVLMModel {
 
     /// Минимум свободного места на диске для установки. 2× размер модели —
     /// нужен запас под атомарную замену (старые файлы остаются до switch).
-    nonisolated var minFreeDiskBytes: Int64 {
+    public nonisolated var minFreeDiskBytes: Int64 {
         2 * approximateSizeBytes
     }
 
     /// SHA-256 хэш ожидаемого артефакта (если зафиксирован revision).
     /// Stage 1: nil для всех — заполним когда зафиксируем revision на HF.
-    nonisolated var sha256: String? { nil }
+    public nonisolated var sha256: String? { nil }
 }
 
 // MARK: - Generation config

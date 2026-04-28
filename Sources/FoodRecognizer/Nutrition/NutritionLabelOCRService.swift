@@ -22,7 +22,9 @@ struct NutritionLabelReading {
 /// Используется как fast-path в `NutritionAnalyzerService` ПЕРЕД VLM: если фото
 /// содержит читаемый лейбл, OCR даёт точные цифры за ~200 мс вместо того чтобы
 /// 2B-VLM «угадывала» калории и ставила 0/0/0.
-final class NutritionLabelOCRService {
+public final class NutritionLabelOCRService {
+
+    public init() {}
 
     func extract(from image: UIImage) async -> NutritionLabelReading? {
         guard let cgImage = image.cgImage else { return nil }

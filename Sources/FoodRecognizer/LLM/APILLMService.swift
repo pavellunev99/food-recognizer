@@ -8,13 +8,13 @@ import UIKit
 /// OpenAI (и совместимые — LM Studio, Ollama, Groq) используют `/chat/completions`
 /// c массивом сообщений. Anthropic использует `/messages` с другим форматом
 /// image blocks и хедером `x-api-key`.
-enum APIProviderFlavor {
+public enum APIProviderFlavor {
     case openAICompatible
     case anthropic
 }
 
 /// Сервис для работы с LLM через HTTP API.
-final class APILLMService: LLMServiceProtocol {
+public final class APILLMService: LLMServiceProtocol {
 
     private let apiKey: String
     private let baseURL: String
@@ -23,12 +23,12 @@ final class APILLMService: LLMServiceProtocol {
     private let session: URLSession
     private var initialized: Bool = false
 
-    var isInitialized: Bool { initialized }
-    var modelName: String { apiModel }
+    public var isInitialized: Bool { initialized }
+    public var modelName: String { apiModel }
 
     // MARK: - Initialization
 
-    init(
+    public init(
         apiKey: String,
         baseURL: String = "https://api.openai.com/v1",
         model: String = "gpt-4o-mini",
@@ -42,7 +42,7 @@ final class APILLMService: LLMServiceProtocol {
         self.session = session
     }
 
-    func initialize() async throws {
+    public func initialize() async throws {
         guard !apiKey.isEmpty else {
             throw LLMServiceError.apiKeyMissing
         }
@@ -54,7 +54,7 @@ final class APILLMService: LLMServiceProtocol {
 
     // MARK: - Request Handling
 
-    func sendRequest(_ request: LLMRequest) async throws -> LLMResponse {
+    public func sendRequest(_ request: LLMRequest) async throws -> LLMResponse {
         guard isInitialized else {
             throw LLMServiceError.modelNotLoaded
         }
@@ -272,7 +272,7 @@ final class APILLMService: LLMServiceProtocol {
 
     // MARK: - Cleanup
 
-    func cleanup() async {
+    public func cleanup() async {
         AppLog.debug("API LLM cleanup", category: .llm)
         initialized = false
     }

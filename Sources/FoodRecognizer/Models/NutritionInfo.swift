@@ -1,22 +1,22 @@
 import Foundation
 
 /// Информация о пищевой ценности продукта
-struct NutritionInfo: Codable, Identifiable {
+public struct NutritionInfo: Codable, Identifiable {
 
     /// Размер «стандартной» порции в граммах, когда модель не вернула точное значение.
-    static let defaultPortionGrams: Double = 250
+    public static let defaultPortionGrams: Double = 250
 
-    let id: UUID
-    var foodName: String
-    var calories: Double
-    var protein: Double
-    var carbs: Double
-    var fats: Double
-    var portionSize: String
-    var portionGrams: Double
-    let timestamp: Date
+    public let id: UUID
+    public var foodName: String
+    public var calories: Double
+    public var protein: Double
+    public var carbs: Double
+    public var fats: Double
+    public var portionSize: String
+    public var portionGrams: Double
+    public let timestamp: Date
 
-    init(
+    public init(
         id: UUID = UUID(),
         foodName: String,
         calories: Double,
@@ -40,18 +40,18 @@ struct NutritionInfo: Codable, Identifiable {
 }
 
 /// Результат анализа еды
-struct FoodAnalysisResult {
-    let nutritionInfo: NutritionInfo
-    let confidence: Double
-    let suggestions: [String]
+public struct FoodAnalysisResult {
+    public let nutritionInfo: NutritionInfo
+    public let confidence: Double
+    public let suggestions: [String]
     /// Человекочитаемое имя модели, фактически вернувшей результат
     /// (`LLMServiceProtocol.modelName`). Опционально — для будущих
     /// провайдеров без понятия «модель» можно передавать nil.
     /// Используется в `MealConfirmationView` для бледного бейджа
     /// «Модель: …», чтобы юзер видел, что после апгрейда работает heavy.
-    let modelName: String?
+    public let modelName: String?
 
-    init(
+    public init(
         nutritionInfo: NutritionInfo,
         confidence: Double,
         suggestions: [String],

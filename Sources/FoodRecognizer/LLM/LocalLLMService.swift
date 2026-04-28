@@ -22,12 +22,12 @@ import Tokenizers
 /// `@unchecked Sendable`: `container` мутируется только внутри `initialize()` /
 /// `cleanup()`, которые вызываются строго последовательно из главного актора
 /// (`AppController.initializeServices`). После `initialize()` контейнер readonly.
-nonisolated final class LocalLLMService: LLMServiceProtocol, @unchecked Sendable {
+public nonisolated final class LocalLLMService: LLMServiceProtocol, @unchecked Sendable {
 
     // MARK: - Notifications
 
     /// Прогресс скачивания модели (0.0 … 1.0). Передаётся через NotificationCenter.
-    static let progressNotification = Notification.Name("LocalLLMService.loadingProgress")
+    public static let progressNotification = Notification.Name("LocalLLMService.loadingProgress")
 
     // MARK: - State
 
@@ -64,7 +64,7 @@ nonisolated final class LocalLLMService: LLMServiceProtocol, @unchecked Sendable
     /// мы могли повторить попытку при следующей успешной prod-inference.
     private static let bootstrapHFPurgedKey = "LocalLLMService.bootstrapHFPurged"
 
-    init(model: LocalVLMModel) {
+    public init(model: LocalVLMModel) {
         let initial = Snapshot(initialized: false, selectedModel: model)
         let lock = OSAllocatedUnfairLock(initialState: initial)
         self.snapshot = lock
@@ -72,13 +72,13 @@ nonisolated final class LocalLLMService: LLMServiceProtocol, @unchecked Sendable
     }
 
     /// Текущая активная модель — читается координатором.
-    var currentModel: LocalVLMModel {
+    public var currentModel: LocalVLMModel {
         snapshot.withLock { $0.selectedModel }
     }
 
-    var isInitialized: Bool { snapshot.withLock { $0.initialized } }
+    public var isInitialized: Bool { snapshot.withLock { $0.initialized } }
 
-    var modelName: String {
+    public var modelName: String {
         #if targetEnvironment(simulator)
         return "Simulator Mock VLM"
         #else
@@ -88,7 +88,7 @@ nonisolated final class LocalLLMService: LLMServiceProtocol, @unchecked Sendable
 
     // MARK: - Initialization
 
-    func initialize() async throws {
+    public func initialize() async throws {
         if isInitialized { return }
         if let existing = initializationTask {
             try await existing.value
@@ -240,7 +240,7 @@ nonisolated final class LocalLLMService: LLMServiceProtocol, @unchecked Sendable
 
     // MARK: - Request Handling
 
-    func sendRequest(_ request: LLMRequest) async throws -> LLMResponse {
+    public func sendRequest(_ request: LLMRequest) async throws -> LLMResponse {
         guard isInitialized else {
             throw LLMServiceError.modelNotLoaded
         }
@@ -323,7 +323,7 @@ nonisolated final class LocalLLMService: LLMServiceProtocol, @unchecked Sendable
     ///   - иначе (default app path) — берём `model.nutritionSystemPrompt(retry:)`.
     ///
     /// App никогда не выставляет `systemPromptOverride` — поведение app не меняется.
-    func analyzeFood(
+    public func analyzeFood(
         ciImage: CIImage,
         userPrompt: String?,
         systemPromptOverride: String?,
@@ -497,7 +497,7 @@ nonisolated final class LocalLLMService: LLMServiceProtocol, @unchecked Sendable
     /// Сейчас peak = max(old, new), downtime ~5-30 сек на mmap+GPU-загрузке.
     /// UX: ModelDownloadBanner показывается через `ModelDownloadState.phase`,
     /// инференс возвращает `modelNotLoaded` пока новая модель не готова.
-    func switchActiveModel(_ model: LocalVLMModel) async throws {
+    public func switchActiveModel(_ model: LocalVLMModel) async throws {
         #if targetEnvironment(simulator)
         // На симуляторе MLX не работает — фиксируем выбор и считаем готовым.
         await holder.setLoaded(model: model)
@@ -573,7 +573,7 @@ nonisolated final class LocalLLMService: LLMServiceProtocol, @unchecked Sendable
     /// если purge после успешного апгрейда не отработал (краш приложения,
     /// kill-by-jetsam в момент удаления). Сам `purgeBootstrap()` идемпотентный
     /// через `bootstrapHFPurgedKey` — повторный вызов = no-op.
-    func markFirstSuccessfulHeavyInference() {
+    public func markFirstSuccessfulHeavyInference() {
         let defaults = UserDefaults.standard
         if !defaults.bool(forKey: Self.firstHeavyInferenceKey) {
             defaults.set(true, forKey: Self.firstHeavyInferenceKey)
@@ -592,7 +592,7 @@ nonisolated final class LocalLLMService: LLMServiceProtocol, @unchecked Sendable
     ///     системные ~1.2 GB; на App Store сборке это основная экономия.
     /// Идемпотентный: при повторном вызове проверяет `bootstrapHFPurgedKey`
     /// и сразу возвращает. Безопасен в режиме `Task.detached(priority: .background)`.
-    static func purgeBootstrap() async {
+    public static func purgeBootstrap() async {
         let defaults = UserDefaults.standard
         guard !defaults.bool(forKey: bootstrapHFPurgedKey) else { return }
 
@@ -619,7 +619,7 @@ nonisolated final class LocalLLMService: LLMServiceProtocol, @unchecked Sendable
 
     /// Был ли первый успешный heavy-inference. Координатор использует это,
     /// чтобы решить — безопасно ли удалить bootstrap-веса.
-    static var hasPerformedSuccessfulInferenceOnHeavy: Bool {
+    public static var hasPerformedSuccessfulInferenceOnHeavy: Bool {
         UserDefaults.standard.bool(forKey: firstHeavyInferenceKey)
     }
 
@@ -681,7 +681,7 @@ nonisolated final class LocalLLMService: LLMServiceProtocol, @unchecked Sendable
     /// дренажа in-flight inference и `MLX.Memory.clearCache()` ПЕРЕД
     /// созданием нового сервиса. Иначе clearCache при rebuild стрельнул бы
     /// по только что загруженному в новый сервис контейнеру.
-    func cleanup() async {
+    public func cleanup() async {
         await holder.clear()
         #if !targetEnvironment(simulator)
         // Любые pending тапы «Распознать», которые ждали setLoaded на этом
