@@ -1,0 +1,41 @@
+# macOS
+.DS_Store
+
+# Swift Package Manager
+.build/
+.swiftpm/
+Package.resolved
+*.xcodeproj
+
+# Xcode build artefacts
+DerivedData/
+build/
+*.dSYM
+*.dSYM.zip
+*.hmap
+*.ipa
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Eval runtime artefacts
+Eval/.build/
+Eval/Reports/runs/*.json
+!Eval/Reports/runs/.keep
+Eval/Reports/best/*.json
+!Eval/Reports/best/.keep
+Eval/Reports/latest.md
+
+# Heavy model weights — храним в GitHub Releases food-recognizer (см. roadmap C)
+Eval/Fixtures/*.safetensors
+Eval/Resources/Models/
+
+# Метатест: фикстур-картинки добавить через git lfs или GitHub Release
+# Пока что Fixtures/ остаются в репо как часть baseline (14 MB)
+
+# Claude / agents
+.claude/
+.claude-flow/

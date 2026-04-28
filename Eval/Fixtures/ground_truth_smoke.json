@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "items": [
+    {
+      "id": "smoke_apple_001",
+      "image": "_smoke/apple.jpg",
+      "tier": 1,
+      "category": "fruit",
+      "nameAliases": ["apple", "яблоко", "red apple", "красное яблоко"],
+      "calories": 95,
+      "protein": 0.5,
+      "carbs": 25,
+      "fats": 0.3,
+      "portionGrams": 182,
+      "tolerancePercent": 10,
+      "source": "smoke fixture (Wave 4)",
+      "license": "fixture-only"
+    }
+  ]
+}
